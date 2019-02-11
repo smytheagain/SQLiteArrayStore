@@ -14,12 +14,7 @@ namespace SQLiteArrayStoreUnitTests
         [TestMethod]
         public void InsertNewArrayData()
         {
-            double[,] multiArray = new double[RetentionVols.Length, 2];
-            for (int i = 0; i < RetentionVols.Length; i++)
-            {
-                multiArray[i, 0] = RetentionVols[i];
-                multiArray[i, 1] = RI[i];
-            }
+            double[,] multiArray = DbDataConverter.ConvertTwoDoubleArrayToMultiDimArray(RetentionVols, RI);
 
             byte[] serializedScatterSeries = DbDataConverter.SerializeMultiDimentionalDoubleArray(multiArray);
             string name = "Visual Studio Test";
