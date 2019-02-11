@@ -1,0 +1,14 @@
+{
+  "SeriesData": [{
+    "Name": "First experiment",
+    "date": "06/02/2018",
+    "data": [0.023, 0.234, 1.5985, 1.234, 89457.234, 12478.214987, 21947.120478, 147.102947, 12487.21047, 1204780, 91240],
+    "attributes": ["Monomer", "Some other attribute"]
+  },
+  {
+    "Name": "Second experiment",
+    "date": "06/02/2018",
+    "data": [0.023, 0.234, 1.5985, 1.234, 89457.234, 12478.214987, 21947.120478, 147.102947, 12487.21047, 1204780, 91240],
+    "attributes": ["Dimer", "Diverging baseline", "Another key attribute"]
+  }]
+}
