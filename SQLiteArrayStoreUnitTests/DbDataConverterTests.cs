@@ -1,12 +1,12 @@
 ﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 
 namespace SQLiteArrayStoreUnitTests
 {
-    [TestClass]
+    [TestFixture]
     public class DbDataConverterTests
     {
-        [TestMethod]
+        [Test]
         public void SerializeAndDeserializeDoubleArray()
         {
             double[] testArray = new double[] { 1.1, 1.342523, 12.2344, 45.243145, 100.34522 };
@@ -23,7 +23,7 @@ namespace SQLiteArrayStoreUnitTests
             }
         }
 
-        [TestMethod]
+        [Test]
         public void SerializeAndDeserializeMultiDoubleArray()
         {
             double[,] testArray = new double[,] { { 1.1, 1.2344, 1.57522 }, { 1.342523, 45.243145, 67.8497 } };

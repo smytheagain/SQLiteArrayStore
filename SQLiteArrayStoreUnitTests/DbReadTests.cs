@@ -3,17 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SQLiteArrayStore;
+using NUnit.Framework;
 
 namespace SQLiteArrayStoreUnitTests
 {
-    [TestClass]
+    [TestFixture]
     public class DbReadTests
     {
         public static readonly string FilePath = @"C:\Users\jusmith\Source\Repos\SQLiteArrayStore\SQLiteArrayStore\test.db";
 
-        [TestMethod]
+        [TestCase]
         public void ReadData()
         {
             using (SQLiteConnector connector = new SQLiteConnector(FilePath))
