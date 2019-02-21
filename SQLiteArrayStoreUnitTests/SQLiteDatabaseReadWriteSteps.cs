@@ -16,9 +16,9 @@ namespace SQLiteArrayStoreUnitTests
         [Given(@"I have the test database")]
         public void GivenIHaveTheTestDatabase()
         {
-            DbReadTests existingReadTest = new DbReadTests();
+            TestDataHelper helper = new TestDataHelper();
 
-            this.databaseResults = existingReadTest.DatabaseData;
+            this.databaseResults = helper.DatabaseData;
         }
         
         [When(@"I read the attributes of record (.*)")]

@@ -69,6 +69,7 @@
       <DependentUpon>SQLiteDatabaseReadWrite.feature</DependentUpon>
     </Compile>
     <Compile Include="SQLiteDatabaseReadWriteSteps.cs" />
+    <Compile Include="TestDataHelper.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
