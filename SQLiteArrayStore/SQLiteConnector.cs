@@ -79,7 +79,7 @@
         /// <example>
         /// Example query string:
         /// "INSERT INTO DataSeries (Name, AcquisitionDate, Data) values('Series name', 'date of acquisition', @serializedScatterSeries')"
-        /// param key = serializedScatterSeries, value = serialized byte[].
+        /// parameter = new KeyValuePair&lt;string, byte[]&gt;("serializedScatterSeries", serializedData).
         /// </example>
         public void WriteDataContainingParameters(string query, params KeyValuePair<string, byte[]>[] serializedParameters)
         {
