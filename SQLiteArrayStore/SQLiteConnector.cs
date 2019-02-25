@@ -2,7 +2,6 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.Collections.Specialized;
     using System.Data.SQLite;
     using System.IO;
 
@@ -15,14 +14,7 @@
             if (File.Exists(databasePath))
             {
                 string connectionStr = $"Data Source={databasePath}; Version=3;";
-                try
-                {
-                    this.Connection = new SQLiteConnection(connectionStr);
-                }
-                catch (Exception e)
-                {
-                    var temp = e;
-                }
+                this.Connection = new SQLiteConnection(connectionStr);
             }
             else
             {
@@ -76,21 +68,7 @@
 
         public void WriteTextData(string query)
         {
-            if (query.ToUpper().StartsWith("INSERT INTO"))
-            {
-                using (SQLiteCommand command = new SQLiteCommand(query, this.Connection))
-                {
-                    command.Connection.Open();
-                    SQLiteDataAdapter adapter = new SQLiteDataAdapter();
-
-                    adapter.InsertCommand = command;
-                    adapter.InsertCommand.ExecuteNonQuery();
-                }
-            }
-            else
-            {
-                throw new ArgumentException("Query must start with a 'INSERT INTO' statement.", "query");
-            }
+            this.WriteDataContainingParameters(query, new KeyValuePair<string, byte[]>());
         }
 
         /// <summary>
@@ -123,7 +101,7 @@
             }
             else
             {
-                throw new ArgumentException("Query must start with a 'INSERT INTO' statement.", "query");
+                throw new ArgumentException("Query must start with an 'INSERT INTO' statement.", "query");
             }
         }
 
