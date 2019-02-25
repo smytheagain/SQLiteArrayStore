@@ -1,7 +1,8 @@
-﻿using System;
+﻿using NUnit.Framework;
 using SQLiteArrayStore;
+using System;
 using System.Collections.Generic;
-using NUnit.Framework;
+using System.Data.SQLite;
 
 namespace SQLiteArrayStoreUnitTests
 {
@@ -42,10 +43,36 @@ namespace SQLiteArrayStoreUnitTests
         {
             using (SQLiteConnector connector = new SQLiteConnector(TestDataHelper.FilePath))
             {
-                string sql = $"INSERT INTO DataSeries_Attributes (DataSeries_Id, Attributes_AttributeName) values('3', 'Monomer')";
+                string sql = $"INSERT INTO DataSeries_Attributes (DataSeries_Id, Attributes_AttributeName) values('3', 'Some other attribute')";
 
                 connector.WriteTextData(sql);
             }
+        }
+
+        [Test]
+        public void ExceptionIfInsertingDuplicateAttribute()
+        {
+            bool uniqueConstraintHit = false;
+
+            try
+            {
+                using (SQLiteConnector connector = new SQLiteConnector(TestDataHelper.FilePath))
+                {
+                    string duplicateAttribute = "Monomer";
+                    string sql = $"INSERT INTO Attributes (AttributeName) values('{duplicateAttribute}')";
+
+                    connector.WriteTextData(sql);
+                }
+            }
+            catch (SQLiteException ex)
+            {
+                if (ex.Message.Contains("UNIQUE constraint"))
+                {
+                    uniqueConstraintHit = true;
+                }
+            }
+
+            Assert.IsTrue(uniqueConstraintHit);
         }
     }
 }

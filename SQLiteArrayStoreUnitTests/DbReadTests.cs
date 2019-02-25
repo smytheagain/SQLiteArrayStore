@@ -17,7 +17,7 @@ namespace SQLiteArrayStoreUnitTests
         [TestCase]
         public void ReadAttibuteData()
         {
-            Dictionary<string, List<object>> results = this.Helper.DatabaseData;
+            Dictionary<string, List<object>> results = this.Helper.DatabaseSeriesData;
 
             Assert.AreEqual("Monomer", results["AttributeName"][0]);
             Assert.AreEqual("Some other attribute", results["AttributeName"][1]);
@@ -29,7 +29,7 @@ namespace SQLiteArrayStoreUnitTests
         [TestCase]
         public void ReadArrayData()
         {
-            Dictionary<string, List<object>> results = this.Helper.DatabaseData;
+            Dictionary<string, List<object>> results = this.Helper.DatabaseSeriesData;
 
             Assert.IsTrue(DbDataConverter.CompareTwoDimensionalDoubleArrays(DbDataConverter.ConvertTwoDoubleArrayToMultiDimArray(TestDataHelper.RetentionVols, TestDataHelper.RI), (double[,])results["Data"][4]));
         }

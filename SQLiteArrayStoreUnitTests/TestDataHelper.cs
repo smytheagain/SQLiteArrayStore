@@ -25,9 +25,24 @@ namespace SQLiteArrayStoreUnitTests
             }
         }
 
+        
+        public static List<string> GetDatabaseAttributeNames()
+        {
+            Dictionary<string, List<object>> results;
+
+            using (SQLiteConnector connector = new SQLiteConnector(FilePath))
+            {
+                results = connector.ReadData("SELECT AttributeName FROM Attributes");
+            }
+
+            List<string> list = results["AttributeName"].ConvertAll(x => x.ToString());
+
+            return list;
+        }
+
         private Dictionary<string, List<object>> testDb;
 
-        public Dictionary<string, List<object>> DatabaseData
+        public Dictionary<string, List<object>> DatabaseSeriesData
         {
             get
             {
@@ -37,7 +52,7 @@ namespace SQLiteArrayStoreUnitTests
 
                     using (SQLiteConnector connector = new SQLiteConnector(FilePath))
                     {
-                        results = connector.ReadData("SELECT ds.Id, ds.Name, ds.AcquisitionDate, ds.Data, a.AttributeName FROM DataSeries as ds INNER JOIN DataSeries_Attributes as da ON ds.Id = da.DataSeries_Id INNER JOIN Attributes as a ON a.AttributeName = da.Attributes_AttributeName");
+                        results = connector.ReadData("SELECT ds.Id, ds.Name, ds.AcquisitionDate, ds.Data, a.AttributeName FROM DataSeries as ds LEFT OUTER JOIN DataSeries_Attributes as da ON ds.Id = da.DataSeries_Id LEFT OUTER JOIN Attributes as a ON a.AttributeName = da.Attributes_AttributeName");
                     }
 
                     this.testDb = results;
@@ -45,6 +60,11 @@ namespace SQLiteArrayStoreUnitTests
 
                 return this.testDb;
             }
+        }
+
+        public void SetDatabaseSeriesdataToNull()
+        {
+            this.testDb = null;
         }
     }
 }
