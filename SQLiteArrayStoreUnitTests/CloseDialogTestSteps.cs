@@ -2,7 +2,9 @@
 using TechTalk.SpecFlow;
 using NUnit.Framework;
 using System.Threading;
+using System.Windows;
 using System.Windows.Threading;
+using System.Windows.Controls;
 
 namespace SQLiteArrayStoreUnitTests
 {
@@ -10,6 +12,7 @@ namespace SQLiteArrayStoreUnitTests
     public class CloseDialogTestSteps
     {
         private Thread messageThread;
+        private TestDataHelper helperInstance;
 
         [Given(@"I have the simple messagebox window open")]
         public void GivenIHaveTheSimpleMessageboxWindowOpen()
@@ -21,8 +24,9 @@ namespace SQLiteArrayStoreUnitTests
         private Thread CreateMessageBoxOnSeparateThread()
         {
             Thread t = new Thread(new ThreadStart( () =>
-            { 
-                TestDataHelper.ShowMessageBox();
+            {
+                this.helperInstance = new TestDataHelper();
+                this.helperInstance.ShowMessageBox();
 
                 Dispatcher.Run();
             }));
@@ -39,7 +43,7 @@ namespace SQLiteArrayStoreUnitTests
 
             Dispatcher.FromThread(messageThread).Invoke(DispatcherPriority.Background, new Action(() =>
             {
-                TestDataHelper.MessageBoxInstance.Close();
+                this.helperInstance.MessageBoxInstance.Close();
             }));
         }
         
@@ -48,12 +52,24 @@ namespace SQLiteArrayStoreUnitTests
         {
             bool messageBoxVisible = Dispatcher.FromThread(messageThread).Invoke(new Func<bool>(() =>
             {
-                return TestDataHelper.MessageBoxInstance.IsVisible;
+                return this.helperInstance.MessageBoxInstance.IsVisible;
             }), DispatcherPriority.Background);
 
             messageThread.Abort();
 
             Assert.AreEqual(false, messageBoxVisible);
         }
+
+        [When(@"I invoke the ok button click event")]
+        public void WhenIInvokeTheOkButtonClickEvent()
+        {
+            Thread.Sleep(2000);
+
+            Dispatcher.FromThread(messageThread).Invoke(DispatcherPriority.Background, new Action(() =>
+            {
+                this.helperInstance.MessageBoxInstance.okButton.RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
+            }));
+        }
+
     }
 }

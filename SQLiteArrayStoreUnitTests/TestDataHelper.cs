@@ -12,7 +12,7 @@ namespace SQLiteArrayStoreUnitTests
 
         private static string filePath;
 
-        static TestDataHelper()
+        public TestDataHelper()
         {
             MessageBoxInstance = new SimpleMessageBox();
         }
@@ -72,9 +72,9 @@ namespace SQLiteArrayStoreUnitTests
             this.testDb = null;
         }
 
-        public static SimpleMessageBox MessageBoxInstance { get; set; }
+        public SimpleMessageBox MessageBoxInstance { get; set; }
 
-        public static void ShowMessageBox()
+        public void ShowMessageBox()
         {
             MessageBoxInstance.Show();
         }
