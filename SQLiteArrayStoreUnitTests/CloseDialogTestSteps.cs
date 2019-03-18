@@ -13,6 +13,16 @@ namespace SQLiteArrayStoreUnitTests
     {
         private Thread messageThread;
         private TestDataHelper helperInstance;
+        private SimpleMessageBoxPageObject messageWindowPO;
+
+        [TearDown]
+        public void TearDown()
+        {
+            if (messageThread.IsAlive)
+            {
+                messageThread.Abort();
+            }
+        }
 
         [Given(@"I have the simple messagebox window open")]
         public void GivenIHaveTheSimpleMessageboxWindowOpen()
@@ -71,5 +81,52 @@ namespace SQLiteArrayStoreUnitTests
             }));
         }
 
+        [Given(@"The simple messagebox is opened without direct access to it")]
+        public void GivenTheSimpleMessageboxIsOpenedWithoutDirectAccessToIt()
+        {
+            ShowMessageAsync();
+
+            this.messageWindowPO = new SimpleMessageBoxPageObject();
+            int escapeCount = 0;
+            while(this.messageWindowPO.MainWindow == null && escapeCount < 30)
+            {
+                Thread.Sleep(1000);
+                escapeCount++;
+            }
+
+            this.messageWindowPO.MainWindow.WaitWhileBusy();
+            bool temp = this.messageWindowPO.Exists;
+        }
+
+        private void ShowMessageAsync()
+        {
+            this.messageThread = new Thread(new ThreadStart(() =>
+            {
+                TestDataHelper helper = new TestDataHelper();
+                helper.ShowMessageBox();
+                Dispatcher.Run();
+            }));
+
+            this.messageThread.SetApartmentState(ApartmentState.STA);
+            this.messageThread.Start();
+        }
+
+        [When(@"I use UI Automation to click ok")]
+        public void WhenIUseUiAutomationToClickOk()
+        {
+            this.messageWindowPO.OkButton.Click();
+
+            int escapeCount = 0;
+            while (this.messageWindowPO.Exists && escapeCount < 10)
+            {
+                Thread.Sleep(500);
+            }
+        }
+
+        [Then(@"the message box is no longer on screen")]
+        public void ThenTheMessageBoxIsNoLongerOnScreen()
+        {
+            Assert.IsTrue(this.messageWindowPO.MainWindow.IsClosed);
+        }
     }
 }
