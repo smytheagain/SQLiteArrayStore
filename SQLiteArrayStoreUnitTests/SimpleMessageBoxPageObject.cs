@@ -13,12 +13,6 @@ namespace SQLiteArrayStoreUnitTests
         private Button okButton;
         private Window mainWindow;
 
-        public SimpleMessageBoxPageObject()
-        {
-            //AutomationElement desktop = AutomationElement.RootElement;
-            //AutomationElement messageWindowElement = desktop.FindFirst(TreeScope.Children, new PropertyCondition(AutomationElement.AutomationIdProperty, "MessageBoxWindow"));
-        }
-
         public Window MainWindow
         {
             get
@@ -58,7 +52,12 @@ namespace SQLiteArrayStoreUnitTests
                 {
                     Console.WriteLine(e.GetType() + ", " + e.Message);
                 }
-                
+
+                //AutomationElement desktop = AutomationElement.RootElement;
+                //AutomationElement messageWindowElement = desktop.FindFirst(
+                //    TreeScope.Children, 
+                //    new PropertyCondition(AutomationElement.AutomationIdProperty, "MessageBoxWindow"));
+
                 return doesExist;
             }
         }

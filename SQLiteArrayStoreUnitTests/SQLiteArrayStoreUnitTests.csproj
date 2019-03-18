@@ -84,6 +84,7 @@
     <Compile Include="CloseDialogTestSteps.cs" />
     <Compile Include="DbDataConverterTests.cs" />
     <Compile Include="DbReadTests.cs" />
+    <Compile Include="MessageBoxTestHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="DbWriteTests.cs" />
     <Compile Include="SimpleMessageBox.xaml.cs">

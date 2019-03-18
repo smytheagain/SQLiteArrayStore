@@ -12,7 +12,7 @@ namespace SQLiteArrayStoreUnitTests
     public class CloseDialogTestSteps
     {
         private Thread messageThread;
-        private TestDataHelper helperInstance;
+        private MessageBoxTestHelper messageBoxTestHelperInstance;
         private SimpleMessageBoxPageObject messageWindowPO;
 
         [TearDown]
@@ -35,8 +35,8 @@ namespace SQLiteArrayStoreUnitTests
         {
             Thread t = new Thread(new ThreadStart( () =>
             {
-                this.helperInstance = new TestDataHelper();
-                this.helperInstance.ShowMessageBox();
+                this.messageBoxTestHelperInstance = new MessageBoxTestHelper();
+                this.messageBoxTestHelperInstance.ShowMessageBox();
 
                 Dispatcher.Run();
             }));
@@ -53,7 +53,7 @@ namespace SQLiteArrayStoreUnitTests
 
             Dispatcher.FromThread(messageThread).Invoke(DispatcherPriority.Background, new Action(() =>
             {
-                this.helperInstance.MessageBoxInstance.Close();
+                this.messageBoxTestHelperInstance.MessageBoxInstance.Close();
             }));
         }
         
@@ -62,7 +62,7 @@ namespace SQLiteArrayStoreUnitTests
         {
             bool messageBoxVisible = Dispatcher.FromThread(messageThread).Invoke(new Func<bool>(() =>
             {
-                return this.helperInstance.MessageBoxInstance.IsVisible;
+                return this.messageBoxTestHelperInstance.MessageBoxInstance.IsVisible;
             }), DispatcherPriority.Background);
 
             messageThread.Abort();
@@ -77,7 +77,7 @@ namespace SQLiteArrayStoreUnitTests
 
             Dispatcher.FromThread(messageThread).Invoke(DispatcherPriority.Background, new Action(() =>
             {
-                this.helperInstance.MessageBoxInstance.okButton.RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
+                this.messageBoxTestHelperInstance.MessageBoxInstance.okButton.RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
             }));
         }
 
@@ -102,7 +102,7 @@ namespace SQLiteArrayStoreUnitTests
         {
             this.messageThread = new Thread(new ThreadStart(() =>
             {
-                TestDataHelper helper = new TestDataHelper();
+                MessageBoxTestHelper helper = new MessageBoxTestHelper();
                 helper.ShowMessageBox();
                 Dispatcher.Run();
             }));
