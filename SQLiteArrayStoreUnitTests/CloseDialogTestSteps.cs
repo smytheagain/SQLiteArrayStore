@@ -15,12 +15,13 @@ namespace SQLiteArrayStoreUnitTests
         private MessageBoxTestHelper messageBoxTestHelperInstance;
         private SimpleMessageBoxPageObject messageWindowPO;
 
-        [TearDown]
+        [AfterScenario]
         public void TearDown()
         {
             if (messageThread.IsAlive)
             {
                 messageThread.Abort();
+                messageThread.Join(2000);
             }
         }
 

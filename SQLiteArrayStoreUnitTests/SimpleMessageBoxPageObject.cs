@@ -43,20 +43,12 @@ namespace SQLiteArrayStoreUnitTests
         {
             get
             {
-                bool doesExist = false;
-                try
-                {
-                    doesExist = Desktop.Instance.Windows().Contains(this.mainWindow);
-                }
-                catch (ElementNotAvailableException e)
-                {
-                    Console.WriteLine(e.GetType() + ", " + e.Message);
-                }
+                AutomationElement desktop = AutomationElement.RootElement;
+                AutomationElement messageWindowElement = desktop.FindFirst(
+                    TreeScope.Children,
+                    new PropertyCondition(AutomationElement.AutomationIdProperty, "MessageBoxWindow"));
 
-                //AutomationElement desktop = AutomationElement.RootElement;
-                //AutomationElement messageWindowElement = desktop.FindFirst(
-                //    TreeScope.Children, 
-                //    new PropertyCondition(AutomationElement.AutomationIdProperty, "MessageBoxWindow"));
+                bool doesExist = messageWindowElement != null;
 
                 return doesExist;
             }
