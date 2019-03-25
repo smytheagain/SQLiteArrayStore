@@ -12,7 +12,16 @@
              Topmost="True"
              AutomationProperties.AutomationId="MessageBoxWindow">
     <Grid>
-        <Button x:Name="okButton" Content="OK" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="206,76,0,0" IsDefault="True" Click="Button_Click" AutomationProperties.AutomationId="okButton"/>
+        <Button x:Name="okButton" 
+                x:FieldModifier="public"
+                Content="OK" 
+                HorizontalAlignment="Left" 
+                VerticalAlignment="Top" 
+                Width="75" 
+                Margin="206,76,0,0" 
+                IsDefault="True" 
+                Click="Button_Click" 
+                AutomationProperties.AutomationId="okButton"/>
 
     </Grid>
 </Window>

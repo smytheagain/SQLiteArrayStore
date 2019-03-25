@@ -88,9 +88,6 @@
     <Compile Include="MessageBoxTestHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="DbWriteTests.cs" />
-    <Compile Include="SimpleMessageBox.xaml.cs">
-      <DependentUpon>SimpleMessageBox.xaml</DependentUpon>
-    </Compile>
     <Compile Include="SQLiteDatabaseReadWrite.feature.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -120,12 +117,6 @@
       <Project>{15bc29a6-ede7-4a85-8fe1-a2e5769c1743}</Project>
       <Name>SQLiteArrayStore</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Page Include="SimpleMessageBox.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
   </ItemGroup>
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
