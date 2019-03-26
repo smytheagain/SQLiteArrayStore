@@ -16,12 +16,18 @@ namespace SQLiteArrayStoreUnitTests
         private SimpleMessageBoxPageObject messageWindowPO;
 
         [AfterScenario]
-        public void TearDown()
+        public void ScenarioTearDown()
         {
-            if (messageThread.IsAlive)
+            if (this.messageThread.ThreadState != ThreadState.Stopped)
             {
-                messageThread.Abort();
-                messageThread.Join(2000);
+                Dispatcher.FromThread(messageThread).InvokeShutdown();
+
+                int escapeCount = 0;
+                while (!Dispatcher.FromThread(messageThread).HasShutdownFinished && escapeCount < 10)
+                {
+                    Thread.Sleep(500);
+                    escapeCount++;
+                }
             }
         }
 
@@ -66,8 +72,6 @@ namespace SQLiteArrayStoreUnitTests
                 return this.messageBoxTestHelperInstance.MessageBoxInstance.IsVisible;
             }), DispatcherPriority.Background);
 
-            messageThread.Abort();
-
             Assert.AreEqual(false, messageBoxVisible);
         }
 
@@ -96,7 +100,6 @@ namespace SQLiteArrayStoreUnitTests
             }
 
             this.messageWindowPO.MainWindow.WaitWhileBusy();
-            bool temp = this.messageWindowPO.Exists;
         }
 
         private void ShowMessageAsync()
@@ -128,6 +131,9 @@ namespace SQLiteArrayStoreUnitTests
         public void ThenTheMessageBoxIsNoLongerOnScreen()
         {
             Assert.IsTrue(this.messageWindowPO.MainWindow.IsClosed);
+
+            // clean-up window page object
+            this.messageWindowPO.MainWindow.Dispose();
         }
     }
 }

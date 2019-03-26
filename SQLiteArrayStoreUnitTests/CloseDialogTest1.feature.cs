@@ -88,10 +88,10 @@ this.ScenarioInitialize(scenarioInfo);
         }
         
         [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("Open dialog and click the ok button")]
-        public virtual void OpenDialogAndClickTheOkButton()
+        [NUnit.Framework.DescriptionAttribute("Open dialog and raise the ok button click event")]
+        public virtual void OpenDialogAndRaiseTheOkButtonClickEvent()
         {
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Open dialog and click the ok button", null, ((string[])(null)));
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Open dialog and raise the ok button click event", null, ((string[])(null)));
 #line 9
 this.ScenarioInitialize(scenarioInfo);
             this.ScenarioStart();
