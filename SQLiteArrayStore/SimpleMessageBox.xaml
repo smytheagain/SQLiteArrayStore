@@ -4,13 +4,14 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:SQLiteArrayStore"
+             xmlns:resources="clr-namespace:SQLiteArrayStore.Resources"
              mc:Ignorable="d" 
              d:DesignHeight="150" d:DesignWidth="500"
              Width="500" Height="150"
              ResizeMode="NoResize"
              Title="Some message box"
              Topmost="True"
-             AutomationProperties.AutomationId="MessageBoxWindow">
+             AutomationProperties.AutomationId="{x:Static resources:AutomationIds.SimpleMessageBoxWindowID}">
     <Grid>
         <Button x:Name="okButton" 
                 x:FieldModifier="public"
@@ -21,7 +22,7 @@
                 Margin="206,76,0,0" 
                 IsDefault="True" 
                 Click="Button_Click" 
-                AutomationProperties.AutomationId="okButton"/>
+                AutomationProperties.AutomationId="{x:Static resources:AutomationIds.SimpleMessageBoxOkButtonID}"/>
 
     </Grid>
 </Window>

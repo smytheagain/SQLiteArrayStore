@@ -19,7 +19,7 @@ namespace SQLiteArrayStoreUnitTests
             {
                 if (this.mainWindow == null)
                 {
-                    this.mainWindow = Desktop.Instance.Windows().FirstOrDefault(w => w.Id == "MessageBoxWindow");
+                    this.mainWindow = Desktop.Instance.Windows().FirstOrDefault(w => w.Id == SQLiteArrayStore.Resources.AutomationIds.SimpleMessageBoxWindowID);
                 }
 
                 return this.mainWindow;
@@ -32,7 +32,7 @@ namespace SQLiteArrayStoreUnitTests
             {
                 if (this.okButton == null)
                 {
-                    this.okButton = this.mainWindow.Get<Button>(SearchCriteria.ByAutomationId("okButton"));
+                    this.okButton = this.mainWindow.Get<Button>(SearchCriteria.ByAutomationId(SQLiteArrayStore.Resources.AutomationIds.SimpleMessageBoxOkButtonID));
                 }
 
                 return this.okButton;
@@ -46,7 +46,7 @@ namespace SQLiteArrayStoreUnitTests
                 AutomationElement desktop = AutomationElement.RootElement;
                 AutomationElement messageWindowElement = desktop.FindFirst(
                     TreeScope.Children,
-                    new PropertyCondition(AutomationElement.AutomationIdProperty, "MessageBoxWindow"));
+                    new PropertyCondition(AutomationElement.AutomationIdProperty, SQLiteArrayStore.Resources.AutomationIds.SimpleMessageBoxWindowID));
 
                 bool doesExist = messageWindowElement != null;
 
