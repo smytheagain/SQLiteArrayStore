@@ -101,6 +101,8 @@
     <Compile Include="MessageBoxTestHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="DbWriteTests.cs" />
+    <Compile Include="SimpleMessageBoxPageObject_Appium.cs" />
+    <Compile Include="SimpleMessageBoxPageObject_FlaUI.cs" />
     <Compile Include="SQLiteDatabaseReadWrite.feature.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

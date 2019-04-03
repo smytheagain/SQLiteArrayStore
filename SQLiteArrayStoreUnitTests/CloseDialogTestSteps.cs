@@ -86,12 +86,25 @@ namespace SQLiteArrayStoreUnitTests
             }));
         }
 
-        [Given(@"The simple messagebox is opened without direct access to it")]
-        public void GivenTheSimpleMessageboxIsOpenedWithoutDirectAccessToIt()
+        [Given(@"The simple messagebox is opened without direct access to it using '(.*)'")]
+        public void GivenTheSimpleMessageboxIsOpenedWithoutDirectAccessToIt(string framework)
         {
             ShowMessageAsync();
 
-            this.messageWindowPO = new SimpleMessageBoxPageObject_White();
+            switch (framework)
+            {
+                case "white":
+                    this.messageWindowPO = new SimpleMessageBoxPageObject_White();
+                    break;
+                case "flaui":
+                    this.messageWindowPO = new SimpleMessageBoxPageObject_FlaUI();
+                    break;
+                case "appium":
+                default:
+                    ScenarioContext.Current.Pending();
+                    break;
+            }
+
             Assert.IsTrue(this.messageWindowPO.WaitForMainWindowToLoad(30000), "Main window didn't load within timeout.");
         }
 

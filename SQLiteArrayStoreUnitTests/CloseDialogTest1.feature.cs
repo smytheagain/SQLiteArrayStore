@@ -106,15 +106,18 @@ this.ScenarioInitialize(scenarioInfo);
         }
         
         [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("Open dialog and click ok with no direct access to dialog")]
-        public virtual void OpenDialogAndClickOkWithNoDirectAccessToDialog()
+        [NUnit.Framework.DescriptionAttribute("Open dialog and click ok with no direct access to dialog using white")]
+        [NUnit.Framework.TestCaseAttribute("white", null)]
+        [NUnit.Framework.TestCaseAttribute("flaui", null)]
+        [NUnit.Framework.TestCaseAttribute("appium", null)]
+        public virtual void OpenDialogAndClickOkWithNoDirectAccessToDialogUsingWhite(string framework, string[] exampleTags)
         {
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Open dialog and click ok with no direct access to dialog", null, ((string[])(null)));
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Open dialog and click ok with no direct access to dialog using white", null, exampleTags);
 #line 14
 this.ScenarioInitialize(scenarioInfo);
             this.ScenarioStart();
 #line 15
- testRunner.Given("The simple messagebox is opened without direct access to it", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+ testRunner.Given(string.Format("The simple messagebox is opened without direct access to it using \'{0}\'", framework), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 16
  testRunner.When("I use UI Automation to click ok", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 17
@@ -126,3 +129,4 @@ this.ScenarioInitialize(scenarioInfo);
 }
 #pragma warning restore
 #endregion
+

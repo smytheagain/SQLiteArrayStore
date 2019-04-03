@@ -1,18 +1,14 @@
-﻿using TestStack.White;
-using TestStack.White.UIItems.Finders;
-using TestStack.White.UIItems.WindowItems;
-using TestStack.White.UIItems;
-using System.Linq;
-using System;
-using System.Windows.Automation;
+﻿using FlaUI.Core.AutomationElements;
+using FlaUI.Core.AutomationElements.Infrastructure;
+using FlaUI.UIA3;
 using System.Threading;
 
 namespace SQLiteArrayStoreUnitTests
 {
-    public class SimpleMessageBoxPageObject_White : ISimpleMessageBoxAutomation
+    public class SimpleMessageBoxPageObject_FlaUI : ISimpleMessageBoxAutomation
     {
-        private Button okButton;
         private Window mainWindow;
+        private Button okButton;
 
         internal Window MainWindow
         {
@@ -20,7 +16,9 @@ namespace SQLiteArrayStoreUnitTests
             {
                 if (this.mainWindow == null)
                 {
-                    this.mainWindow = Desktop.Instance.Windows().FirstOrDefault(w => w.Id == SQLiteArrayStore.Resources.AutomationIds.SimpleMessageBoxWindowID);
+                    Thread.Sleep(5000); // need to implement a search timeout!
+                    AutomationElement desktop = new UIA3Automation().GetDesktop();
+                    this.mainWindow = desktop.FindFirstChild(SQLiteArrayStore.Resources.AutomationIds.SimpleMessageBoxWindowID).AsWindow();
                 }
 
                 return this.mainWindow;
@@ -33,7 +31,7 @@ namespace SQLiteArrayStoreUnitTests
             {
                 if (this.okButton == null)
                 {
-                    this.okButton = MainWindow.Get<Button>(SearchCriteria.ByAutomationId(SQLiteArrayStore.Resources.AutomationIds.SimpleMessageBoxOkButtonID));
+                    this.okButton = MainWindow.FindFirstChild(SQLiteArrayStore.Resources.AutomationIds.SimpleMessageBoxOkButtonID).AsButton();
                 }
 
                 return this.okButton;
@@ -44,10 +42,7 @@ namespace SQLiteArrayStoreUnitTests
         {
             get
             {
-                AutomationElement desktop = AutomationElement.RootElement;
-                AutomationElement messageWindowElement = desktop.FindFirst(
-                    TreeScope.Children,
-                    new PropertyCondition(AutomationElement.AutomationIdProperty, SQLiteArrayStore.Resources.AutomationIds.SimpleMessageBoxWindowID));
+                AutomationElement messageWindowElement = new UIA3Automation().GetDesktop().FindFirstChild(SQLiteArrayStore.Resources.AutomationIds.SimpleMessageBoxWindowID);
 
                 bool doesExist = messageWindowElement != null;
 
@@ -59,9 +54,10 @@ namespace SQLiteArrayStoreUnitTests
         {
             get
             {
-                return MainWindow.IsClosed;
+                return MainWindow.IsOffscreen;
             }
         }
+
 
         public void ClickOkButton()
         {
@@ -70,21 +66,19 @@ namespace SQLiteArrayStoreUnitTests
 
         public void DisposeMainWindow()
         {
-            MainWindow.Dispose();
+            MainWindow.Automation.Dispose();
         }
 
         public bool WaitForMainWindowToLoad(int timeoutInMilliSeconds)
         {
             int escapeCount = 0;
             int sleeptime = timeoutInMilliSeconds / 30;
-            
+
             while (MainWindow == null && escapeCount < 30)
             {
                 Thread.Sleep(sleeptime);
                 escapeCount++;
             }
-
-            MainWindow.WaitWhileBusy();
 
             return escapeCount < 30;
         }
