@@ -5,15 +5,16 @@ using TestStack.White.UIItems;
 using System.Linq;
 using System;
 using System.Windows.Automation;
+using System.Threading;
 
 namespace SQLiteArrayStoreUnitTests
 {
-    public class SimpleMessageBoxPageObject
+    public class SimpleMessageBoxPageObject_White : ISimpleMessageBoxAutomation
     {
         private Button okButton;
         private Window mainWindow;
 
-        public Window MainWindow
+        internal Window MainWindow
         {
             get
             {
@@ -26,7 +27,7 @@ namespace SQLiteArrayStoreUnitTests
             }
         }
 
-        public Button OkButton
+        internal Button OkButton
         {
             get
             {
@@ -54,5 +55,38 @@ namespace SQLiteArrayStoreUnitTests
             }
         }
 
+        public bool MainWindowIsClosed
+        {
+            get
+            {
+                return this.MainWindow.IsClosed;
+            }
+        }
+
+        public void ClickOkButton()
+        {
+            this.OkButton.Click();
+        }
+
+        public void DisposeMainWindow()
+        {
+            this.MainWindow.Dispose();
+        }
+
+        public bool WaitForMainWindowToLoad(int timeoutInMilliSeconds)
+        {
+            int escapeCount = 0;
+            int sleeptime = timeoutInMilliSeconds / 30;
+            
+            while (this.MainWindow == null && escapeCount < 30)
+            {
+                Thread.Sleep(sleeptime);
+                escapeCount++;
+            }
+
+            this.MainWindow.WaitWhileBusy();
+
+            return escapeCount < 30;
+        }
     }
 }

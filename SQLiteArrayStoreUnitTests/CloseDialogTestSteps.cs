@@ -13,7 +13,7 @@ namespace SQLiteArrayStoreUnitTests
     {
         private Thread messageThread;
         private MessageBoxTestHelper messageBoxTestHelperInstance;
-        private SimpleMessageBoxPageObject messageWindowPO;
+        private ISimpleMessageBoxAutomation messageWindowPO;
 
         [AfterScenario]
         public void ScenarioTearDown()
@@ -91,15 +91,8 @@ namespace SQLiteArrayStoreUnitTests
         {
             ShowMessageAsync();
 
-            this.messageWindowPO = new SimpleMessageBoxPageObject();
-            int escapeCount = 0;
-            while(this.messageWindowPO.MainWindow == null && escapeCount < 30)
-            {
-                Thread.Sleep(1000);
-                escapeCount++;
-            }
-
-            this.messageWindowPO.MainWindow.WaitWhileBusy();
+            this.messageWindowPO = new SimpleMessageBoxPageObject_White();
+            Assert.IsTrue(this.messageWindowPO.WaitForMainWindowToLoad(30000), "Main window didn't load within timeout.");
         }
 
         private void ShowMessageAsync()
@@ -118,7 +111,7 @@ namespace SQLiteArrayStoreUnitTests
         [When(@"I use UI Automation to click ok")]
         public void WhenIUseUiAutomationToClickOk()
         {
-            this.messageWindowPO.OkButton.Click();
+            this.messageWindowPO.ClickOkButton();
 
             int escapeCount = 0;
             while (this.messageWindowPO.Exists && escapeCount < 10)
@@ -130,10 +123,10 @@ namespace SQLiteArrayStoreUnitTests
         [Then(@"the message box is no longer on screen")]
         public void ThenTheMessageBoxIsNoLongerOnScreen()
         {
-            Assert.IsTrue(this.messageWindowPO.MainWindow.IsClosed);
+            Assert.IsTrue(this.messageWindowPO.MainWindowIsClosed);
 
             // clean-up window page object
-            this.messageWindowPO.MainWindow.Dispose();
+            this.messageWindowPO.DisposeMainWindow();
         }
     }
 }
