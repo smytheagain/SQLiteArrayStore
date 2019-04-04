@@ -106,13 +106,15 @@ this.ScenarioInitialize(scenarioInfo);
         }
         
         [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("Open dialog and click ok with no direct access to dialog using white")]
+        [NUnit.Framework.DescriptionAttribute("Open dialog and click ok with no direct access to dialog using automation framewo" +
+            "rk")]
         [NUnit.Framework.TestCaseAttribute("white", null)]
         [NUnit.Framework.TestCaseAttribute("flaui", null)]
         [NUnit.Framework.TestCaseAttribute("appium", null)]
-        public virtual void OpenDialogAndClickOkWithNoDirectAccessToDialogUsingWhite(string framework, string[] exampleTags)
+        public virtual void OpenDialogAndClickOkWithNoDirectAccessToDialogUsingAutomationFramework(string framework, string[] exampleTags)
         {
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Open dialog and click ok with no direct access to dialog using white", null, exampleTags);
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Open dialog and click ok with no direct access to dialog using automation framewo" +
+                    "rk", null, exampleTags);
 #line 14
 this.ScenarioInitialize(scenarioInfo);
             this.ScenarioStart();

@@ -100,6 +100,8 @@ namespace SQLiteArrayStoreUnitTests
                     this.messageWindowPO = new SimpleMessageBoxPageObject_FlaUI();
                     break;
                 case "appium":
+                    this.messageWindowPO = new SimpleMessageBoxPageObject_Appium();
+                    break;
                 default:
                     ScenarioContext.Current.Pending();
                     break;
