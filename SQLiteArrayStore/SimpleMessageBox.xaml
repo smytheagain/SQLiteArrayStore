@@ -14,7 +14,7 @@
              AutomationProperties.AutomationId="{x:Static resources:AutomationIds.SimpleMessageBoxWindowID}">
     <Grid>
         <Button x:Name="okButton" 
-                x:FieldModifier="public"
+                x:FieldModifier="internal"
                 Content="OK" 
                 HorizontalAlignment="Left" 
                 VerticalAlignment="Top" 
