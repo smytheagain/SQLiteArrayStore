@@ -12,7 +12,8 @@ Scenario: Open dialog and raise the ok button click event
 	Then the message box closes
 
 Scenario Outline: Open dialog and click ok with no direct access to dialog using automation framework
-	Given The simple messagebox is opened without direct access to it using '<framework>'
+	Given The simple messagebox is opened without direct access to it
+	And I am using '<framework>' automation framework
 	When I use UI Automation to click ok
 	Then the message box is no longer on screen
 
@@ -21,3 +22,8 @@ Examples:
 	| white     |
 	| flaui     |
 	| appium    |
+
+Scenario: Open dialog and raise the ok button click event without direct access
+	Given The simple messagebox is opened without direct access to it
+	When I invoke the ok button click event using the window handle
+	Then the message box also closes

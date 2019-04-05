@@ -5,6 +5,10 @@ using System.Threading;
 using System.Windows;
 using System.Windows.Threading;
 using System.Windows.Controls;
+using System.Diagnostics;
+using System.Windows.Media;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace SQLiteArrayStoreUnitTests
 {
@@ -14,11 +18,12 @@ namespace SQLiteArrayStoreUnitTests
         private Thread messageThread;
         private MessageBoxTestHelper messageBoxTestHelperInstance;
         private ISimpleMessageBoxAutomation messageWindowPO;
+        private Window messageWindow;
 
         [AfterScenario]
         public void ScenarioTearDown()
         {
-            if (this.messageThread.ThreadState != ThreadState.Stopped)
+            if (this.messageThread.ThreadState != System.Threading.ThreadState.Stopped)
             {
                 Dispatcher.FromThread(messageThread).InvokeShutdown();
 
@@ -86,11 +91,66 @@ namespace SQLiteArrayStoreUnitTests
             }));
         }
 
-        [Given(@"The simple messagebox is opened without direct access to it using '(.*)'")]
-        public void GivenTheSimpleMessageboxIsOpenedWithoutDirectAccessToIt(string framework)
+        [Given(@"The simple messagebox is opened without direct access to it")]
+        public void GivenTheSimpleMessageboxIsOpenedWithoutDirectAccessToIt()
         {
             ShowMessageAsync();
+        }
 
+        [When(@"I invoke the ok button click event using the window handle")]
+        public void WhenIInvokeTheOkButtonClickEventUsingTheWindowHandle()
+        {
+            Thread.Sleep(2000);
+
+            var test = Process.GetCurrentProcess().MainWindowHandle;
+
+            this.messageWindow = (Window)System.Windows.Interop.HwndSource.FromHwnd(test).RootVisual;
+
+            this.messageWindow.Dispatcher.Invoke(DispatcherPriority.Background, new Action(() =>
+            {
+                FindVisualChildren<Button>(this.messageWindow).First().RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
+                Thread.Sleep(5000);
+            }));
+        }
+
+        public static IEnumerable<T> FindVisualChildren<T>(DependencyObject depObj) where T : DependencyObject
+        {
+            if (depObj != null)
+            {
+                // Can use LogicalTreeHelper for non-visual or not currently visible children
+                for (int i = 0; i < VisualTreeHelper.GetChildrenCount(depObj); i++)
+                {
+                    DependencyObject child = VisualTreeHelper.GetChild(depObj, i);
+                    if (child != null && child is T)
+                    {
+                        yield return (T)child;
+                    }
+
+                    foreach (T childOfChild in FindVisualChildren<T>(child))
+                    {
+                        yield return childOfChild;
+                    }
+                }
+            }
+        }
+
+        [Then(@"the message box also closes")]
+        public void ThenTheMessageBoxAlsoCloses()
+        {
+            Assert.IsFalse(this.messageWindow.IsVisible, "Message Window is visible.");
+            this.messageWindow.Dispatcher.InvokeShutdown();
+            int escapeCount = 0;
+
+            while (this.messageWindow.Dispatcher.HasShutdownFinished && escapeCount < 10)
+            {
+                Thread.Sleep(500);
+                escapeCount++;
+            }
+        }
+
+        [Given(@"I am using '(.*)' automation framework")]
+        public void GivenIAmUsingAutomationFramework(string framework)
+        {
             switch (framework)
             {
                 case "white":
@@ -109,6 +169,7 @@ namespace SQLiteArrayStoreUnitTests
 
             Assert.IsTrue(this.messageWindowPO.WaitForMainWindowToLoad(30000), "Main window didn't load within timeout.");
         }
+
 
         private void ShowMessageAsync()
         {
