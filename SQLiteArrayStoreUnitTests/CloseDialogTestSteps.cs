@@ -109,7 +109,6 @@ namespace SQLiteArrayStoreUnitTests
             this.messageWindow.Dispatcher.Invoke(DispatcherPriority.Background, new Action(() =>
             {
                 FindVisualChildren<Button>(this.messageWindow).First().RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
-                Thread.Sleep(5000);
             }));
         }
 
