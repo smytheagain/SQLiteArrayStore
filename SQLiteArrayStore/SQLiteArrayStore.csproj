@@ -51,7 +51,15 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Authenticate.cs" />
+    <Compile Include="AuthenticationResult.cs" />
+    <Compile Include="AuthenticationView.xaml.cs">
+      <DependentUpon>AuthenticationView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="AuthenticationViewModel.cs" />
     <Compile Include="DbDataConverter.cs" />
+    <Compile Include="IAuthenticate.cs" />
+    <Compile Include="RelayCommand.cs" />
     <Compile Include="Resources\AutomationIds.Designer.cs">
       <DependentUpon>AutomationIds.resx</DependentUpon>
       <AutoGen>True</AutoGen>
@@ -67,6 +75,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="AuthenticationView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="SimpleMessageBox.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

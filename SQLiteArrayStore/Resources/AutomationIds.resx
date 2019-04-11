@@ -124,4 +124,19 @@
   <data name="SimpleMessageBoxOkButtonID" xml:space="preserve">
     <value>SimpleMessageBoxOkButton</value>
   </data>
+  <data name="LoginDialog_CancelButton" xml:space="preserve">
+    <value>LoginDialog_CancelButton</value>
+  </data>
+  <data name="LoginDialog_OKButton" xml:space="preserve">
+    <value>LoginDialog_OKButton</value>
+  </data>
+  <data name="LoginDialog_PasswordText" xml:space="preserve">
+    <value>LoginDialog_PasswordText</value>
+  </data>
+  <data name="LoginDialog_UsernameText" xml:space="preserve">
+    <value>LoginDialog_UsernameText</value>
+  </data>
+  <data name="LoginDialogWindow" xml:space="preserve">
+    <value>LoginDialogWindow</value>
+  </data>
 </root>

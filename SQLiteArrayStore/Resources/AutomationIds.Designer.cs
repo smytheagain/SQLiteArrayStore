@@ -61,6 +61,51 @@ namespace SQLiteArrayStore.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to LoginDialog_CancelButton.
+        /// </summary>
+        public static string LoginDialog_CancelButton {
+            get {
+                return ResourceManager.GetString("LoginDialog_CancelButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to LoginDialog_OKButton.
+        /// </summary>
+        public static string LoginDialog_OKButton {
+            get {
+                return ResourceManager.GetString("LoginDialog_OKButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to LoginDialog_PasswordText.
+        /// </summary>
+        public static string LoginDialog_PasswordText {
+            get {
+                return ResourceManager.GetString("LoginDialog_PasswordText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to LoginDialog_UsernameText.
+        /// </summary>
+        public static string LoginDialog_UsernameText {
+            get {
+                return ResourceManager.GetString("LoginDialog_UsernameText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to LoginDialogWindow.
+        /// </summary>
+        public static string LoginDialogWindow {
+            get {
+                return ResourceManager.GetString("LoginDialogWindow", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to SimpleMessageBoxOkButton.
         /// </summary>
         public static string SimpleMessageBoxOkButtonID {

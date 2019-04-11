@@ -23,15 +23,18 @@ namespace SQLiteArrayStoreUnitTests
         [AfterScenario]
         public void ScenarioTearDown()
         {
-            if (this.messageThread.ThreadState != System.Threading.ThreadState.Stopped)
+            if (this.messageThread != null)
             {
-                Dispatcher.FromThread(messageThread).InvokeShutdown();
-
-                int escapeCount = 0;
-                while (!Dispatcher.FromThread(messageThread).HasShutdownFinished && escapeCount < 10)
+                if (this.messageThread.ThreadState != System.Threading.ThreadState.Stopped)
                 {
-                    Thread.Sleep(500);
-                    escapeCount++;
+                    Dispatcher.FromThread(messageThread).InvokeShutdown();
+
+                    int escapeCount = 0;
+                    while (!Dispatcher.FromThread(messageThread).HasShutdownFinished && escapeCount < 10)
+                    {
+                        Thread.Sleep(500);
+                        escapeCount++;
+                    }
                 }
             }
         }
