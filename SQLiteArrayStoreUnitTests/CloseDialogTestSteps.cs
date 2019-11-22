@@ -10,6 +10,11 @@ using System.Windows.Media;
 using System.Collections.Generic;
 using System.Linq;
 
+using TestStack.White;
+using TestStack.White.UIItems.Finders;
+using TestStack.White.UIItems.WindowItems;
+using TestStack.White.UIItems;
+
 namespace SQLiteArrayStoreUnitTests
 {
     [Binding]
@@ -18,7 +23,7 @@ namespace SQLiteArrayStoreUnitTests
         private Thread messageThread;
         private MessageBoxTestHelper messageBoxTestHelperInstance;
         private ISimpleMessageBoxAutomation messageWindowPO;
-        private Window messageWindow;
+        private System.Windows.Window messageWindow;
 
         [AfterScenario]
         public void ScenarioTearDown()
@@ -90,7 +95,7 @@ namespace SQLiteArrayStoreUnitTests
 
             Dispatcher.FromThread(messageThread).Invoke(DispatcherPriority.Background, new Action(() =>
             {
-                this.messageBoxTestHelperInstance.MessageBoxInstance.okButton.RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
+                this.messageBoxTestHelperInstance.MessageBoxInstance.okButton.RaiseEvent(new RoutedEventArgs(System.Windows.Controls.Button.ClickEvent));
             }));
         }
 
@@ -107,11 +112,11 @@ namespace SQLiteArrayStoreUnitTests
 
             var test = Process.GetCurrentProcess().MainWindowHandle;
 
-            this.messageWindow = (Window)System.Windows.Interop.HwndSource.FromHwnd(test).RootVisual;
+            this.messageWindow = (System.Windows.Window)System.Windows.Interop.HwndSource.FromHwnd(test).RootVisual;
 
             this.messageWindow.Dispatcher.Invoke(DispatcherPriority.Background, new Action(() =>
             {
-                FindVisualChildren<Button>(this.messageWindow).First().RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
+                FindVisualChildren<System.Windows.Controls.Button>(this.messageWindow).First().RaiseEvent(new RoutedEventArgs(System.Windows.Controls.Button.ClickEvent));
             }));
         }
 
@@ -206,5 +211,23 @@ namespace SQLiteArrayStoreUnitTests
             // clean-up window page object
             this.messageWindowPO.DisposeMainWindow();
         }
+
+        [Then(@"Just Do It")]
+        public void ThenJustDoIt()
+        {
+            var window = Desktop.Instance.Windows().FirstOrDefault(w => w.AutomationElement.Current.ProcessId == 24740);
+            var button = window.Get<TestStack.White.UIItems.Button>(SearchCriteria.ByText("Click Here"));
+
+            var clickPoint = button.AutomationElement.GetClickablePoint();
+
+            MouseOperations.MousePoint mousePoint = new MouseOperations.MousePoint((int)clickPoint.X, (int)clickPoint.Y);
+            MouseOperations.SetCursorPosition(mousePoint);
+
+            for (int i = 0; i < 20000; i++)
+            {
+                MouseOperations.MouseEvent(MouseOperations.MouseEventFlags.LeftDown | MouseOperations.MouseEventFlags.LeftUp, mousePoint);
+            }
+        }
+
     }
 }

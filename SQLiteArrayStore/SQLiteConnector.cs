@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Data;
     using System.Data.SQLite;
     using System.IO;
 
@@ -31,7 +32,7 @@
                 using (SQLiteCommand command = new SQLiteCommand(query, this.Connection))
                 {
                     command.Connection.Open();
-                    SQLiteDataReader reader = command.ExecuteReader(System.Data.CommandBehavior.CloseConnection);
+                    SQLiteDataReader reader = command.ExecuteReader(CommandBehavior.CloseConnection);
 
                     for (int i = 0; i < reader.FieldCount; i++)
                     {
@@ -53,6 +54,31 @@
                             }
                         }
                     }
+
+                    reader.Close();
+                    command.Connection.Close();
+                }
+
+                return results;
+            }
+            else
+            {
+                throw new ArgumentException("Query must start with a 'SELECT' statement.", "query");
+            }
+        }
+
+        public DataTable ReadDataAsTable(string query)
+        {
+            if (query.ToUpper().StartsWith("SELECT"))
+            {
+                DataTable results = new DataTable();
+
+                using (SQLiteCommand command = new SQLiteCommand(query, this.Connection))
+                {
+                    command.Connection.Open();
+                    SQLiteDataReader reader = command.ExecuteReader(CommandBehavior.CloseConnection);
+
+                    results.Load(reader);
 
                     reader.Close();
                     command.Connection.Close();
