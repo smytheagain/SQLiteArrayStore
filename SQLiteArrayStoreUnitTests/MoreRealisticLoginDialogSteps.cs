@@ -15,6 +15,7 @@ using TechTalk.SpecFlow;
 namespace SQLiteArrayStoreUnitTests
 {
     [Binding]
+    [Scope(Feature = "MoreRealisticLoginDialog")]
     public class MoreRealisticLoginDialogSteps
     {
         private IAuthenticate _authenticationObject;

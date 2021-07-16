@@ -1,4 +1,5 @@
 ﻿using NUnit.Framework;
+using OpenQA.Selenium.Appium;
 using OpenQA.Selenium.Appium.Windows;
 using OpenQA.Selenium.Remote;
 using System;
@@ -52,9 +53,9 @@ namespace SQLiteArrayStoreUnitTests
             Thread.Sleep(3000); // speeds up appium by not 'missing' the first attempt to find the window and then going through the timeouts.
 
             // Create a session for Desktop
-            DesiredCapabilities desktopCapabilities = new DesiredCapabilities();
-            desktopCapabilities.SetCapability("app", "Root");
-            desktopSession = new WindowsDriver<WindowsElement>(new Uri(WindowsApplicationDriverUrl), desktopCapabilities);
+            AppiumOptions desktopOptions = new AppiumOptions();
+            desktopOptions.AddAdditionalCapability("app", "Root");
+            desktopSession = new WindowsDriver<WindowsElement>(new Uri(WindowsApplicationDriverUrl), desktopOptions);
             Assert.IsNotNull(desktopSession);
 
             //desktopSession.Manage().Timeouts().ImplicitlyWait(TimeSpan.FromSeconds(3));
@@ -64,9 +65,9 @@ namespace SQLiteArrayStoreUnitTests
             string mainWindowTopLevelWindowHandle = (int.Parse(mainWindow.GetAttribute("NativeWindowHandle"))).ToString("x");
 
             // Create session for messageBox window
-            DesiredCapabilities appCapabilities = new DesiredCapabilities();
-            appCapabilities.SetCapability("appTopLevelWindow", mainWindowTopLevelWindowHandle);
-            messageBoxSession = new WindowsDriver<WindowsElement>(new Uri(WindowsApplicationDriverUrl), appCapabilities);
+            AppiumOptions messageboxOptions = new AppiumOptions();
+            messageboxOptions.AddAdditionalCapability("appTopLevelWindow", mainWindowTopLevelWindowHandle);
+            messageBoxSession = new WindowsDriver<WindowsElement>(new Uri(WindowsApplicationDriverUrl), messageboxOptions);
             Assert.IsNotNull(messageBoxSession);
 
             //messageBoxSession.Manage().Timeouts().ImplicitlyWait(TimeSpan.FromSeconds(0.5));

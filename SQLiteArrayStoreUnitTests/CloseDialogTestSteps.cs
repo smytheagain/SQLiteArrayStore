@@ -18,6 +18,7 @@ using TestStack.White.UIItems;
 namespace SQLiteArrayStoreUnitTests
 {
     [Binding]
+    [Scope(Feature = "CloseDialogTest")]
     public class CloseDialogTestSteps
     {
         private Thread messageThread;

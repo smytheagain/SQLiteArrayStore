@@ -28,6 +28,7 @@ Scenario: Open dialog and raise the ok button click event without direct access
 	When I invoke the ok button click event using the window handle
 	Then the message box also closes
 
+@ignore
 Scenario: Kick the click tests ass
 	# Clicks the button on https://clickspeedtest.com/ as rapidly as it can.
 	# Manually open the page then set the processID in the steps to the process ID of the browser (Tested on Chrome)

@@ -9,6 +9,7 @@ using TechTalk.SpecFlow;
 namespace SQLiteArrayStoreUnitTests
 {
     [Binding]
+    [Scope(Feature = "SQLiteDatabaseReadWrite")]
     public class SQLiteDatabaseReadWriteSteps
     {
         private Dictionary<string, List<object>> databaseResults;
